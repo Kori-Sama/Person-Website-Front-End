@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import SideAvatar from '../../components/AuthForm/SideAvatar/SideAvatar';
+import SideAvatar from '../../components/AuthForm/SideAvatar';
 import Stack from '@mui/material/Stack';
 import styles from './Login.module.scss';
 

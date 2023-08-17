@@ -2,8 +2,8 @@ import { Navigate } from "react-router-dom"
 import React, { lazy } from "react";
 import Home from "../pages/homePage/Home"
 import Login from "../pages/loginPage/Login";
-import SignIn from "../components/AuthForm/SignIn/SignIn";
-import Register from "../components/AuthForm/Register/Register";
+import SignIn from "../components/AuthForm/SignIn";
+import Register from "../components/AuthForm/Register";
 
 const Blog = lazy(() => import("../pages/blogPage/Blog"))
 const Project = lazy(() => import("../pages/projectPage/Project"))
