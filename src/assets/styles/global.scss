@@ -1,0 +1,10 @@
+body {
+    margin: 0;
+    background-image: url('../images/wallpaper.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
