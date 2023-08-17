@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -9,18 +9,39 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+import { LoginAPI } from '../../request/api';
+import { useNavigate } from 'react-router-dom';
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+    const navigate = useNavigate();
+    const [errMsg, setErrMsg] = useState('');
+    const [success, setSuccess] = useState(false);
+    const [isValid, setValid] = useState(true);
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        console.log({
-            username: data.get('username'),
-            password: data.get('password'),
-        });
+        const username = data.get('username') + "";
+        const password = data.get('password') + "";
+
+        if (username === '' || password === '') {
+            setValid(false);
+            setErrMsg("Value can't be null")
+            return;
+        }
+
+        let loginAPIRes = await LoginAPI({
+            username: username,
+            password: password,
+        })
+
+        if (loginAPIRes.code === 200) {
+
+            navigate("/");
+        }
+
     };
 
     return (
@@ -43,9 +64,10 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
+                            error={!isValid}
                             fullWidth
                             id="username"
-                            label="Username"
+                            label={isValid ? "Username" : errMsg}
                             name="username"
                             autoComplete="username"
                             autoFocus
@@ -53,9 +75,10 @@ export default function SignIn() {
                         <TextField
                             margin="normal"
                             required
+                            error={!isValid}
                             fullWidth
                             name="password"
-                            label="Password"
+                            label={isValid ? "Password" : errMsg}
                             type="password"
                             id="password"
                             autoComplete="current-password"

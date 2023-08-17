@@ -25,6 +25,11 @@ export default function Register() {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    // const [userLabel, setUserLabel] = useState("Username");
+    // const [pwdLabel, setPwdLabel] = useState("Password");
+
+    const [isValid, setValid] = useState(true);
+
     useEffect(() => {
         const result = USER_REGEX.test(user);
         console.log(result);
@@ -48,9 +53,14 @@ export default function Register() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         if (!validName || !validPwd) {
-            console.log('Invalid');
+            setValid(false);
+            setErrMsg('Invalid username or password');
+            return;
         }
 
+
+        setValid(true);
+        setSuccess(true)
         console.log({
             username: data.get('username'),
             password: data.get('password'),
@@ -78,9 +88,10 @@ export default function Register() {
                             <Grid item xs={12}>
                                 <TextField
                                     required
+                                    error={!isValid}
                                     fullWidth
                                     id="username"
-                                    label="Username"
+                                    label={isValid ? "Username" : errMsg}
                                     name="username"
                                     autoComplete="username"
                                     onChange={(e) => setUser(e.target.value)}
@@ -89,9 +100,10 @@ export default function Register() {
                             <Grid item xs={12}>
                                 <TextField
                                     required
+                                    error={!isValid}
                                     fullWidth
                                     name="password"
-                                    label="Password"
+                                    label={isValid ? "Password" : errMsg}
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
