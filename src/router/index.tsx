@@ -17,10 +17,6 @@ const withLoadingComponent = (comp: JSX.Element) => (
 const router = [
     {
         path: "/",
-        element: <Navigate to="/login" />
-    },
-    {
-        path: "/",
         element: <Home />,
         children: [
             {
@@ -39,7 +35,7 @@ const router = [
         children: [
             {
                 index: true,
-                path: "login",
+                path: "/login",
                 element: <SignIn />,
             },
             {

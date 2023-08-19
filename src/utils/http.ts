@@ -1,11 +1,12 @@
 import axios from "axios";
 
-const instance = axios.create({
+
+const http = axios.create({
     baseURL: "localhost:8080",
     timeout: 20000,
 })
 
-instance.interceptors.request.use(
+http.interceptors.request.use(
     config => {
         return config;
     }, err => {
@@ -13,7 +14,7 @@ instance.interceptors.request.use(
     }
 )
 
-instance.interceptors.response.use(
+http.interceptors.response.use(
     res => {
         return res.data
     }, err => {
@@ -21,4 +22,4 @@ instance.interceptors.response.use(
     }
 )
 
-export default instance;
+export { http };

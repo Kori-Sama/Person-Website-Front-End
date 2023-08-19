@@ -23,7 +23,6 @@ export default function Register() {
     const [validPwd, setValidPwd] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     // const [userLabel, setUserLabel] = useState("Username");
     // const [pwdLabel, setPwdLabel] = useState("Password");
@@ -32,15 +31,11 @@ export default function Register() {
 
     useEffect(() => {
         const result = USER_REGEX.test(user);
-        console.log(result);
-        console.log(user);
         setValidName(result);
     }, [user])
 
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
-        console.log(result);
-        console.log(pwd);
         setValidPwd(result);
     }, [pwd])
 
@@ -60,7 +55,6 @@ export default function Register() {
 
 
         setValid(true);
-        setSuccess(true)
         console.log({
             username: data.get('username'),
             password: data.get('password'),

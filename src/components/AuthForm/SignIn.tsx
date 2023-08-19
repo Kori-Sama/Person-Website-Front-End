@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,21 +9,24 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-import { LoginAPI } from '../../request/api';
-import { useNavigate } from 'react-router-dom';
+import { useStore } from '../../store';
 
 const defaultTheme = createTheme();
 
+const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
+const PWD_REGEX = /^[\w_-]{6,16}$/;
+
+
 export default function SignIn() {
+    const { loginStore } = useStore;
     const navigate = useNavigate();
     const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
     const [isValid, setValid] = useState(true);
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
+
         const username = data.get('username') + "";
         const password = data.get('password') + "";
 
@@ -32,15 +36,28 @@ export default function SignIn() {
             return;
         }
 
-        let loginAPIRes = await LoginAPI({
-            username: username,
-            password: password,
-        })
-
-        if (loginAPIRes.code === 200) {
-
-            navigate("/");
+        if (!USER_REGEX.test(username) || !PWD_REGEX.test(password)) {
+            setValid(false);
+            setErrMsg("Invalid username or password")
+            return;
         }
+
+        try {
+            await loginStore.getTokenAsync({
+                username: username,
+                password: password,
+            })
+            navigate("/");
+        } catch (e) {
+            setErrMsg("Fail to login")
+        }
+
+
+
+
+
+
+
 
     };
 

@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom"
 import router from './router'
+import { observer } from "mobx-react-lite";
 
 function App() {
   const outlet = useRoutes(router);
@@ -11,4 +12,4 @@ function App() {
   )
 }
 
-export default App
+export default observer(App);
