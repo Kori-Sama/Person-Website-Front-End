@@ -35,7 +35,7 @@ const router = [
         children: [
             {
                 index: true,
-                path: "/login",
+                path: "login",
                 element: <SignIn />,
             },
             {

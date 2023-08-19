@@ -10,7 +10,7 @@ class LoginStore {
     }
 
     getTokenAsync = async ({ username, password }: UserInfo) => {
-        const res = await http.post("http://", { username, password })
+        const res = await http.post("https://localhost:7144/UserInfo", { username, password })
         this.token = res.data;
         setToken(this.token);
     }

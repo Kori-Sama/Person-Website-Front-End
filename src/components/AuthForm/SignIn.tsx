@@ -48,16 +48,9 @@ export default function SignIn() {
                 password: password,
             })
             navigate("/");
-        } catch (e) {
+        } catch {
             setErrMsg("Fail to login")
         }
-
-
-
-
-
-
-
 
     };
 
