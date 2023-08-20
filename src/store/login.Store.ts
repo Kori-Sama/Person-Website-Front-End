@@ -12,7 +12,7 @@ class LoginStore {
     }
 
     getTokenAsync = async ({ username, password }: UserInfo) => {
-        const res = await http.post("https://localhost:7144/UserInfo", { username, password })
+        const res = await http.post("https://localhost:7144/UserInfo/login", { username, password })
 
         if (res.status === 1001 || res.status === 1002) {
             this.status = res.status
@@ -20,6 +20,7 @@ class LoginStore {
         }
 
         if (res.status === 1000) {
+            this.status = res.status
             this.token = res.data;
             setToken(this.token);
         }

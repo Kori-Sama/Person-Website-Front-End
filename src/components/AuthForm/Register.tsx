@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useStore } from '../../store';
 
 const defaultTheme = createTheme();
 
@@ -16,6 +17,8 @@ const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{3,23}$/;
 const PWD_REGEX = /^[\w_-]{6,16}$/;
 
 export default function Register() {
+
+    const { registerStore } = useStore;
 
     const navigate = useNavigate();
 
@@ -29,6 +32,37 @@ export default function Register() {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
 
+        const username = data.get('username') + "";
+        const password = data.get('password') + "";
+
+        if (username === '' || password === '') {
+            setValid(false);
+            setErrMsg("Value can't be null")
+            return;
+        }
+
+        if (!USER_REGEX.test(username) || !PWD_REGEX.test(password)) {
+            setValid(false);
+            setErrMsg("Invalid username or password")
+            return;
+        }
+
+        try {
+            await registerStore.getTokenAsync({
+                username: username,
+                password: password,
+            })
+            if (registerStore.status === 2001) {
+                setValid(false);
+                setErrMsg(registerStore.data);
+            } else {
+                navigate("/");
+            }
+
+        } catch {
+            setValid(false);
+            setErrMsg("Fail to sign up");
+        }
     };
 
     return (
@@ -92,4 +126,5 @@ export default function Register() {
             </Container>
         </ThemeProvider>
     );
-}
+
+};

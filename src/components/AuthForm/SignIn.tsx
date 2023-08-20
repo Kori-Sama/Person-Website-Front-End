@@ -61,7 +61,6 @@ export default function SignIn() {
             setValid(false);
             setErrMsg("Fail to login");
         }
-
     };
 
     return (
