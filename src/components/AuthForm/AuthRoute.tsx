@@ -3,7 +3,7 @@ import { getToken } from "../../utils";
 
 export default function AuthRoute({ children }: { children: React.ReactNode }) {
     const isToken = getToken();
-    if (isToken) {
+    if (isToken && isToken !== '') {
         return <>{children}</>
     } else {
         return <Navigate to="/login" replace />

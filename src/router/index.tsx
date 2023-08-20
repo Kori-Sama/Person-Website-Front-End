@@ -1,9 +1,9 @@
-import { Navigate } from "react-router-dom"
 import React, { lazy } from "react";
 import Home from "../pages/homePage/Home"
 import Login from "../pages/loginPage/Login";
 import SignIn from "../components/AuthForm/SignIn";
 import Register from "../components/AuthForm/Register";
+import Layout from "../pages/Layout/Layout";
 
 const Blog = lazy(() => import("../pages/blogPage/Blog"))
 const Project = lazy(() => import("../pages/projectPage/Project"))
@@ -17,8 +17,12 @@ const withLoadingComponent = (comp: JSX.Element) => (
 const router = [
     {
         path: "/",
-        element: <Home />,
+        element: <Layout />,
         children: [
+            {
+                path: "/",
+                element: <Home />
+            },
             {
                 path: "blog",
                 element: withLoadingComponent(<Blog />)
@@ -34,7 +38,7 @@ const router = [
         element: <Login />,
         children: [
             {
-                index: true,
+                // index: true,
                 path: "login",
                 element: <SignIn />,
             },
