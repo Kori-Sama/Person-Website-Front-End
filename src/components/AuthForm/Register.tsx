@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -16,49 +17,18 @@ const PWD_REGEX = /^[\w_-]{6,16}$/;
 
 export default function Register() {
 
-    const [user, setUser] = useState('');
-    const [validName, setValidName] = useState(false);
-
-    const [pwd, setPwd] = useState('');
-    const [validPwd, setValidPwd] = useState(false);
+    const navigate = useNavigate();
 
     const [errMsg, setErrMsg] = useState('');
 
-    // const [userLabel, setUserLabel] = useState("Username");
-    // const [pwdLabel, setPwdLabel] = useState("Password");
-
     const [isValid, setValid] = useState(true);
 
-    useEffect(() => {
-        const result = USER_REGEX.test(user);
-        setValidName(result);
-    }, [user])
-
-    useEffect(() => {
-        const result = PWD_REGEX.test(pwd);
-        setValidPwd(result);
-    }, [pwd])
-
-    useEffect(() => {
-        setErrMsg('')
-    }, [user, pwd])
 
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        if (!validName || !validPwd) {
-            setValid(false);
-            setErrMsg('Invalid username or password');
-            return;
-        }
 
-
-        setValid(true);
-        console.log({
-            username: data.get('username'),
-            password: data.get('password'),
-        });
     };
 
     return (
@@ -88,7 +58,6 @@ export default function Register() {
                                     label={isValid ? "Username" : errMsg}
                                     name="username"
                                     autoComplete="username"
-                                    onChange={(e) => setUser(e.target.value)}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -101,7 +70,6 @@ export default function Register() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                    onChange={(e) => setPwd(e.target.value)}
                                 />
                             </Grid>
                         </Grid>

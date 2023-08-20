@@ -47,9 +47,19 @@ export default function SignIn() {
                 username: username,
                 password: password,
             })
-            navigate("/");
+            if (loginStore.status === 1001) {
+                setValid(false);
+                setErrMsg(loginStore.data);
+            } else if (loginStore.status === 1002) {
+                setValid(false);
+                setErrMsg(loginStore.data);
+            } else {
+                navigate("/");
+            }
+
         } catch {
-            setErrMsg("Fail to login")
+            setValid(false);
+            setErrMsg("Fail to login");
         }
 
     };

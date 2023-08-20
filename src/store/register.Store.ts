@@ -1,11 +1,9 @@
 import { makeAutoObservable } from "mobx"
 import { http, getToken, setToken } from "../utils/index"
 
-class LoginStore {
+class registerStore {
 
     token = getToken() || "";
-    status = 400;
-    data = "";
 
     constructor() {
         makeAutoObservable(this);
@@ -13,18 +11,10 @@ class LoginStore {
 
     getTokenAsync = async ({ username, password }: UserInfo) => {
         const res = await http.post("https://localhost:7144/UserInfo", { username, password })
+        this.token = res.data;
 
-        if (res.status === 1001 || res.status === 1002) {
-            this.status = res.status
-            this.data = res.data
-        }
-
-        if (res.status === 1000) {
-            this.token = res.data;
-            setToken(this.token);
-        }
-
+        setToken(this.token);
     }
 }
 
-export default LoginStore;
+export default registerStore;
